@@ -12,7 +12,6 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Setter(AccessLevel.PRIVATE)
@@ -35,7 +34,7 @@ public class EmailStructureDTO implements Serializable {
     private String subject;
 
     @NotNull
-    private List<String> recipients;
+    private String recipient;
 
     @NotNull
     private String sender;
@@ -47,7 +46,7 @@ public class EmailStructureDTO implements Serializable {
 
         final EmailStructureDTO emailStructureDTO = new EmailStructureDTO();
         emailStructureDTO.setBody(EMAIL_CONFIRMATION_BODY);
-        emailStructureDTO.setRecipients(List.of(email));
+        emailStructureDTO.setRecipient(email);
         emailStructureDTO.setSubject(DEFAULT_SUBJECT);
         emailStructureDTO.setSender(DEFAULT_SENDER);
 
@@ -59,18 +58,14 @@ public class EmailStructureDTO implements Serializable {
         return EmailLog.builder()
                 .body(getBody())
                 .sender(getSender())
-                .recipients(String.join(",", getRecipients()))
+                .recipients(getRecipient())
                 .sendDate(LocalDateTime.now())
                 .emailStatus(EmailStatus.WAITING)
                 .subject(getSubject())
                 .build();
     }
 
-    public SendCustomVerificationEmailRequest toAws() {
-
-        return new SendCustomVerificationEmailRequest()
-                .withEmailAddress(String.join("", String.join(",", getRecipients())))
-                .withTemplateName("Moneyflow");
+    public VerifyEmailAddressRequest toAws() {
+        return new VerifyEmailAddressRequest().withEmailAddress(getRecipient());
     }
-
 }

@@ -46,6 +46,9 @@ public class User implements UserDetails {
     @JoinColumn(name = "user_id")
     private Set<UserRoles> authorities = new HashSet<>();
 
+    @Column
+    private Boolean verified = Boolean.FALSE;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities.stream().map(UserRoles::getRoles).toList();

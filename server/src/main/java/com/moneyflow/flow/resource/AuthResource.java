@@ -34,11 +34,7 @@ public class AuthResource {
     @GetMapping(value = "/sign-in", produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<String> signIn(@RequestBody @Valid final UserRequestDTO userRequest) {
 
-        final String name = userRequest.getName();
-
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(name, userRequest.getPassword()));
-
-        final UserDetails userDetails = userService.loadUserByUsername(name);
+        final UserDetails userDetails = userService.login(userRequest, authenticationManager);
 
         return ResponseEntity.ok(JwtTokenValidator.generateToken(userDetails));
     }
