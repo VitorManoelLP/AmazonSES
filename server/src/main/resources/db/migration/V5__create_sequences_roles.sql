@@ -1,0 +1,7 @@
+CREATE SEQUENCE roles_seq
+    START WITH 1
+    INCREMENT BY 1;
+
+CREATE SEQUENCE user_roles_seq
+    START WITH 1
+    INCREMENT BY 1;
