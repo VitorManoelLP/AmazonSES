@@ -1,9 +1,6 @@
 package com.moneyflow.flow.dto;
 
-import com.amazonaws.services.simpleemail.model.Body;
-import com.amazonaws.services.simpleemail.model.Content;
-import com.amazonaws.services.simpleemail.model.Destination;
-import com.amazonaws.services.simpleemail.model.Message;
+import com.amazonaws.services.simpleemail.model.*;
 import com.moneyflow.flow.domain.EmailLog;
 import com.moneyflow.flow.enums.EmailStatus;
 import jakarta.validation.constraints.NotEmpty;
@@ -69,33 +66,11 @@ public class EmailStructureDTO implements Serializable {
                 .build();
     }
 
-    public AwsFormat toAws() {
+    public SendCustomVerificationEmailRequest toAws() {
 
-        final Destination destination = new Destination().withToAddresses(getRecipients());
-
-        final Content subject = new Content().withData(getSubject());
-
-        final Content textBody = new Content().withData(getBody());
-
-        final Body body = new Body().withText(textBody);
-
-        final Message message = new Message().withSubject(subject).withBody(body);
-
-        return AwsFormat.builder()
-                .destination(destination)
-                .sender(getSender())
-                .message(message)
-                .build();
-    }
-
-    @Builder
-    @Getter
-    public static final class AwsFormat {
-
-        private final Destination destination;
-        private final String sender;
-        private final Message message;
-
+        return new SendCustomVerificationEmailRequest()
+                .withEmailAddress(String.join("", String.join(",", getRecipients())))
+                .withTemplateName("Moneyflow");
     }
 
 }

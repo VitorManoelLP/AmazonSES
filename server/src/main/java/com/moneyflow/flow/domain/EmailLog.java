@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
+@Getter
 @Table(name = "EMAIL_LOG")
 @Builder
 @NoArgsConstructor
