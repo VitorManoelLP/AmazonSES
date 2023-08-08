@@ -13,6 +13,8 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     Optional<User> findByName(String name);
 
+    Boolean existsByEmail(String email);
+
     default User loadUserByUsername(String name) {
         return findByName(name).orElseThrow(() -> new UsernameNotFoundException("User not found!"));
     }

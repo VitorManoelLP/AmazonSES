@@ -12,3 +12,8 @@ spring:
     port: 5672
     username: guest
     password: guest
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        show_sql: true

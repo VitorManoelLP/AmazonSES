@@ -4,7 +4,9 @@ import com.amazonaws.services.simpleemail.AmazonSimpleEmailService;
 import com.amazonaws.services.simpleemail.model.*;
 import com.moneyflow.flow.domain.EmailLog;
 import com.moneyflow.flow.dto.EmailStructureDTO;
+import com.moneyflow.flow.enums.TypeMail;
 import com.moneyflow.flow.repository.EmailLogRepository;
+import com.moneyflow.flow.service.imp.EmailSendResolver;
 import com.moneyflow.flow.util.AwsUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,18 +18,23 @@ import java.util.List;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class EmailService {
+public class EmailServiceVerification implements EmailSendResolver {
 
     private final AmazonSimpleEmailService amazonSimpleEmailService;
     private final EmailLogRepository emailLogRepository;
     private final RunNewTransactionService runNewTransactionService;
 
+    @Override
+    public TypeMail getTypeMail() {
+        return TypeMail.VERIFICATION;
+    }
+
     @Transactional
-    public void sendVerificationMail(final EmailStructureDTO emailStructure) {
+    public void send(final EmailStructureDTO emailStructure) {
 
         log.info("Iniciando envio de e-mail pelo AWS SES com a estrutura -> {}", emailStructure);
 
-        final VerifyEmailAddressRequest aws = emailStructure.toAws();
+        final VerifyEmailAddressRequest aws = emailStructure.toAwsVerify();
         final EmailLog entity = emailStructure.toEntity();
 
         sendEmail(entity, aws);
