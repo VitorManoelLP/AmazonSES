@@ -1,8 +1,10 @@
 package com.moneyflow.flow.service;
 
+import com.moneyflow.flow.component.SecurityUtilComponent;
 import com.moneyflow.flow.configuration.AuthConfig;
 import com.moneyflow.flow.domain.Roles;
 import com.moneyflow.flow.domain.User;
+import com.moneyflow.flow.dto.EmailConfirmDTO;
 import com.moneyflow.flow.dto.EmailStructureDTO;
 import com.moneyflow.flow.dto.PasswordConfirmDTO;
 import com.moneyflow.flow.dto.UserRequestDTO;
@@ -12,6 +14,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -29,6 +32,7 @@ public class UserService implements UserDetailsService {
     private final EmailSendProducer emailSendProducer;
     private final EntityManager em;
     private final EmailServiceVerification emailService;
+    private final SecurityUtilComponent securityUtilComponent;
 
     @Transactional
     public void save(@Valid final UserRequestDTO userRequest) {
@@ -66,15 +70,21 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public void changePassword(final String idUsuario, final PasswordConfirmDTO confirmDTO, AuthenticationManager authenticationManager) {
-
-        userRepository.findById(UUID.fromString(idUsuario))
-                .ifPresent(user -> {
-                    authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
-                    user.setPassword(AuthConfig.password().encode(confirmDTO.getNewPassword()));
-                    emailSendProducer.sendEvent(EmailStructureDTO.newInstanceBySystemPassword(user.getEmail()));
-                });
-
+    public void changePassword(final PasswordConfirmDTO confirmDTO, AuthenticationManager authenticationManager) {
+        securityUtilComponent.findLoggedUser((user) -> {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+            user.setPassword(AuthConfig.password().encode(confirmDTO.getNewPassword()));
+            emailSendProducer.sendEvent(EmailStructureDTO.newInstanceBySystemPassword(user.getEmail()));
+        });
     }
 
+    @Transactional
+    public void changeEmail(final EmailConfirmDTO confirmDTO, AuthenticationManager authenticationManager) {
+        securityUtilComponent.findLoggedUser((user) -> {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+            user.setEmail(confirmDTO.getEmail());
+            user.setVerified(false);
+            emailSendProducer.sendEvent(EmailStructureDTO.newInstanceBySystem(user.getEmail()));
+        });
+    }
 }

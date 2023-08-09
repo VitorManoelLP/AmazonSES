@@ -1,6 +1,7 @@
 package com.moneyflow.flow.resource;
 
 import com.moneyflow.flow.configuration.JwtTokenValidator;
+import com.moneyflow.flow.dto.EmailConfirmDTO;
 import com.moneyflow.flow.dto.PasswordConfirmDTO;
 import com.moneyflow.flow.dto.UserRequestDTO;
 import com.moneyflow.flow.service.UserService;
@@ -41,8 +42,13 @@ public class AuthResource {
     }
 
     @PatchMapping("/change-password/{id}")
-    public ResponseEntity<Void> changePassword(@PathVariable("id") final String idUsuario, @RequestBody final PasswordConfirmDTO password) {
-        userService.changePassword(idUsuario, password, authenticationManager);
+    public ResponseEntity<Void> changePassword(@RequestBody final PasswordConfirmDTO password) {
+        userService.changePassword(password, authenticationManager);
+        return ResponseEntity.accepted().build();
+    }
+
+    public ResponseEntity<Void> changeEmail(@RequestBody final EmailConfirmDTO confirmDTO) {
+        userService.changeEmail(confirmDTO, authenticationManager);
         return ResponseEntity.accepted().build();
     }
 

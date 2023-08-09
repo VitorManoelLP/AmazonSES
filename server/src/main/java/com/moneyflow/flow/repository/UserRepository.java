@@ -11,12 +11,12 @@ import java.util.UUID;
 @Repository
 public interface UserRepository extends JpaRepository<User, UUID> {
 
-    Optional<User> findByName(String name);
+    Optional<User> findByEmail(String email);
 
     Boolean existsByEmail(String email);
 
     default User loadUserByUsername(String name) {
-        return findByName(name).orElseThrow(() -> new UsernameNotFoundException("User not found!"));
+        return findByEmail(name).orElseThrow(() -> new UsernameNotFoundException("User not found!"));
     }
 
 }
