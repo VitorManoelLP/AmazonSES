@@ -34,6 +34,7 @@ public class EmailLog {
     @Enumerated(EnumType.STRING)
     @Column(name = "email_status")
     @Setter(AccessLevel.PRIVATE)
+    @Builder.Default
     private EmailStatus emailStatus = EmailStatus.WAITING;
 
     @NotNull

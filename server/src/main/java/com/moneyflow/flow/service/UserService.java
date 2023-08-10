@@ -1,5 +1,6 @@
 package com.moneyflow.flow.service;
 
+import com.amazonaws.services.simpleemail.AmazonSimpleEmailService;
 import com.moneyflow.flow.component.SecurityUtilComponent;
 import com.moneyflow.flow.configuration.AuthConfig;
 import com.moneyflow.flow.domain.Roles;
@@ -31,7 +32,7 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final EmailSendProducer emailSendProducer;
     private final EntityManager em;
-    private final EmailServiceVerification emailService;
+    private final AmazonSimpleEmailService emailService;
     private final SecurityUtilComponent securityUtilComponent;
 
     @Transactional
@@ -50,15 +51,16 @@ public class UserService implements UserDetailsService {
     @Transactional
     public UserDetails login(final UserRequestDTO userRequest, AuthenticationManager authenticationManager) {
 
-        final String name = userRequest.getName();
+        final String email = userRequest.getEmail();
 
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(name, userRequest.getPassword()));
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, userRequest.getPassword()));
 
-        final User user = (User) loadUserByUsername(name);
+        final User user = (User) loadUserByUsername(email);
 
         if (!user.getVerified()) {
-            final List<String> verifiedMails = emailService.getAllVerifiedMails();
+            final List<String> verifiedMails = emailService.listVerifiedEmailAddresses().getVerifiedEmailAddresses();
             user.setVerified(verifiedMails.stream().anyMatch(it -> it.equals(user.getEmail())));
+            emailSendProducer.sendEvent(EmailStructureDTO.newInstanceBySystemPassword(user.getEmail()));
         }
 
         return user;
@@ -72,7 +74,7 @@ public class UserService implements UserDetailsService {
     @Transactional
     public void changePassword(final PasswordConfirmDTO confirmDTO, AuthenticationManager authenticationManager) {
         securityUtilComponent.findLoggedUser((user) -> {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), confirmDTO.getPassword()));
             user.setPassword(AuthConfig.password().encode(confirmDTO.getNewPassword()));
             emailSendProducer.sendEvent(EmailStructureDTO.newInstanceBySystemPassword(user.getEmail()));
         });

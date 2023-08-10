@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class EmailSendProducer {
 
-    private final RabbitTemplate rabbitTemplate;
+    private final SqsService sqsService;
 
     public void sendEvent(final EmailStructureDTO emailStructure) {
-        rabbitTemplate.convertAndSend(EmailLog.DEFAULT_QUEUE, emailStructure);
+        sqsService.sendMessage(emailStructure);
     }
 
 }

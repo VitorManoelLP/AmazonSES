@@ -39,6 +39,7 @@ dependencies {
 	implementation 'org.glassfish.jaxb:jaxb-runtime:4.0.0'
 	implementation 'com.amazonaws:aws-java-sdk-ses:1.12.68'
 	implementation 'com.fasterxml.jackson.core:jackson-databind'
+	implementation 'io.awspring.cloud:spring-cloud-starter-aws-messaging:2.3.0'
 
 	compileOnly 'org.projectlombok:lombok'
 

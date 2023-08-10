@@ -41,7 +41,7 @@ public class AuthResource {
         return ResponseEntity.ok(JwtTokenValidator.generateToken(userDetails));
     }
 
-    @PatchMapping("/change-password/{id}")
+    @PatchMapping("/change-password")
     public ResponseEntity<Void> changePassword(@RequestBody final PasswordConfirmDTO password) {
         userService.changePassword(password, authenticationManager);
         return ResponseEntity.accepted().build();

@@ -24,8 +24,8 @@ public class EmailStructureDTO implements Serializable {
 
     private static final String EMAIL_PASSWORD_CHANGE_BODY = "Olá,\n\nSua senha do MoneyFlow foi alterada com sucesso. Se você não realizou esta alteração, entre em contato com nosso suporte imediatamente.\n\nAtenciosamente,\nEquipe MoneyFlow";
 
-    @Builder.Default
     private final LocalDateTime sendDate = LocalDateTime.now();
+
     @NotNull
     private String body;
     @NotNull

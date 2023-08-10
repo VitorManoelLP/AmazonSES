@@ -2,12 +2,16 @@ package com.moneyflow.flow.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 
 @Getter
 @AllArgsConstructor
-public class PasswordConfirmDTO {
+@NoArgsConstructor
+public class PasswordConfirmDTO implements Serializable {
 
-    private final String password;
-    private final String newPassword;
+    private String password;
+    private String newPassword;
 
 }
