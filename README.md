@@ -50,7 +50,7 @@ This step is crucial to establish the required secure communication and authenti
     {
       "messageId": "19dd0b57-b21e-4ac1-bd88-01bbb068cb78",
       "receiptHandle": "MessageReceiptHandle",
-      "body": "{\"sendDate\":\"2023-08-10T10:35:36Z\",\"body\":\"Olá,\\n\\nSua senha do MoneyFlow foi alterada com sucesso. Se você não realizou esta alteração, entre em contato com nosso suporte imediatamente.\\n\\nAtenciosamente,\\nEquipe MoneyFlow\",\"subject\":\"Confirmação de alteração de senha - MoneyFlow\",\"recipient\":\"vitor.m.lima.p@gmail.com\",\"sender\":\"vitor.m.lima.p@gmail.com\",\"typeMail\":\"BASIC\"}",
+      "body": "{\"sendDate\":\"2023-08-10T10:35:36Z\",\"body\":\"Olá,\\n\\nSua senha do MoneyFlow foi alterada com sucesso. Se você não realizou esta alteração, entre em contato com nosso suporte imediatamente.\\n\\nAtenciosamente,\\nEquipe MoneyFlow\",\"subject\":\"Confirmação de alteração de senha - MoneyFlow\",\"recipient\":\"overrideYourMail\",\"sender\":\"overrideYourMail\",\"typeMail\":\"BASIC\"}",
       "attributes": {
         "ApproximateReceiveCount": "1",
         "SentTimestamp": "1523232000000",
