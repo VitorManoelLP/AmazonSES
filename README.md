@@ -42,3 +42,28 @@ Please ensure that you configure the necessary environment variables, *accessKey
 
 This step is crucial to establish the required secure communication and authentication with AWS services.
 
+ ### Payload to Test ###
+
+```json
+ {
+  "Records": [
+    {
+      "messageId": "19dd0b57-b21e-4ac1-bd88-01bbb068cb78",
+      "receiptHandle": "MessageReceiptHandle",
+      "body": "{\"sendDate\":\"2023-08-10T10:35:36Z\",\"body\":\"Olá,\\n\\nSua senha do MoneyFlow foi alterada com sucesso. Se você não realizou esta alteração, entre em contato com nosso suporte imediatamente.\\n\\nAtenciosamente,\\nEquipe MoneyFlow\",\"subject\":\"Confirmação de alteração de senha - MoneyFlow\",\"recipient\":\"vitor.m.lima.p@gmail.com\",\"sender\":\"vitor.m.lima.p@gmail.com\",\"typeMail\":\"BASIC\"}",
+      "attributes": {
+        "ApproximateReceiveCount": "1",
+        "SentTimestamp": "1523232000000",
+        "SenderId": "123456789012",
+        "ApproximateFirstReceiveTimestamp": "1523232000001"
+      },
+      "messageAttributes": {},
+      "md5OfBody": "{{{md5_of_body}}}",
+      "eventSource": "aws:sqs",
+      "eventSourceARN": "arn:aws:sqs:us-east-1:123456789012:MyQueue",
+      "awsRegion": "us-east-1"
+    }
+  ]
+}
+```
+
