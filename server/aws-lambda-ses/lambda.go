@@ -4,17 +4,13 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"log"
+
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
-	_ "github.com/aws/aws-lambda-go/lambda"
-	_ "github.com/aws/aws-sdk-go/aws"
-	_ "github.com/aws/aws-sdk-go/aws/session"
-	_ "github.com/aws/aws-sdk-go/service/ses"
 	"golang/service"
 	"golang/service/imp"
 	_struct "golang/struct"
-	"log"
-	_ "log"
 )
 
 var resolvers = []imp.EmailResolver{
@@ -30,8 +26,8 @@ func handleRequest(ctz context.Context, sqsEvent events.SQSEvent) (bool, error) 
 
 	for _, record := range sqsEvent.Records {
 
-		var structure _struct.EmailStructureDTO
-		err := json.Unmarshal([]byte(record.Body), &structure)
+		var emailStructure _struct.EmailStructureDTO
+		err := parseJson(record, emailStructure)
 
 		if err != nil {
 			log.Println("Error decoding JSON:", err)
@@ -40,22 +36,34 @@ func handleRequest(ctz context.Context, sqsEvent events.SQSEvent) (bool, error) 
 
 		var serviceResolver imp.EmailResolver
 
-		for _, resolver := range resolvers {
-
-			if resolver.Type(structure.TypeMail) {
-				serviceResolver = resolver
-				break
-			}
-
-		}
+		serviceResolver = findResolverByType(emailStructure, serviceResolver)
 
 		if serviceResolver == nil {
-			log.Println(fmt.Sprintf("Service not found with type email %s", structure.TypeMail))
+			log.Println(fmt.Sprintf("Service not found with type email %s", emailStructure.TypeMail))
 			return false, err
 		}
 
-		serviceResolver.Send(structure)
+		serviceResolver.Send(emailStructure)
 	}
 
 	return true, nil
+}
+
+func findResolverByType(emailStructure _struct.EmailStructureDTO, serviceResolver imp.EmailResolver) imp.EmailResolver {
+
+	for _, resolver := range resolvers {
+
+		if resolver.Type(emailStructure.TypeMail) {
+			serviceResolver = resolver
+			break
+		}
+
+	}
+
+	return serviceResolver
+}
+
+func parseJson(record events.SQSMessage, emailStructure _struct.EmailStructureDTO) error {
+	err := json.Unmarshal([]byte(record.Body), &emailStructure)
+	return err
 }
