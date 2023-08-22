@@ -1,8 +1,9 @@
 package _struct
 
 import (
-	"github.com/aws/aws-sdk-go/service/ses"
 	"time"
+
+	"github.com/aws/aws-sdk-go/service/ses"
 )
 
 type EmailStructureDTO struct {

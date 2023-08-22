@@ -2,11 +2,11 @@ package service
 
 import (
 	"fmt"
+	"log"
+
 	"github.com/aws/aws-sdk-go/service/ses"
-	_ "github.com/aws/aws-sdk-go/service/ses"
 	"golang/service/imp"
 	_struct "golang/struct"
-	"log"
 )
 
 const TypeBasic = "BASIC"

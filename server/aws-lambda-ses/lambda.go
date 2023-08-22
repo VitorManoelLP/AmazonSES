@@ -27,6 +27,7 @@ func handleRequest(ctz context.Context, sqsEvent events.SQSEvent) (bool, error) 
 	for _, record := range sqsEvent.Records {
 
 		var emailStructure _struct.EmailStructureDTO
+
 		err := parseJson(record, emailStructure)
 
 		if err != nil {
