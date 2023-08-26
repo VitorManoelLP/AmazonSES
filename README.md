@@ -17,10 +17,10 @@ set GOARCH=amd64
 set CGO_ENABLED=0
 ```
 
-Compile the main code (main.go):
+Compile the main code (lambda.go):
 
 ```
-go build main.go
+go build -o main lambda.go
 ```
 
 Use the build-lambda-zip tool to create a ZIP file containing the compiled binary:
