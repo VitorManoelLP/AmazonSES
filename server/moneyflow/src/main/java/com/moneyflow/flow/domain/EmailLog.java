@@ -18,7 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 public class EmailLog {
 
-    public static final String DEFAULT_QUEUE = "email-log-queue";
+    public static final String DEFAULT_QUEUE = "TESTE-QUEUE";
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "email_log_seq")

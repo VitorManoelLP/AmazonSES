@@ -28,7 +28,7 @@ func handleRequest(ctz context.Context, sqsEvent events.SQSEvent) (bool, error) 
 
 		var emailStructure _struct.EmailStructureDTO
 
-		err := parseJson(record, emailStructure)
+		err := parseJson(record, &emailStructure)
 
 		if err != nil {
 			log.Println("Error decoding JSON:", err)
@@ -64,7 +64,7 @@ func findResolverByType(emailStructure _struct.EmailStructureDTO, serviceResolve
 	return serviceResolver
 }
 
-func parseJson(record events.SQSMessage, emailStructure _struct.EmailStructureDTO) error {
+func parseJson(record events.SQSMessage, emailStructure *_struct.EmailStructureDTO) error {
 	err := json.Unmarshal([]byte(record.Body), &emailStructure)
 	return err
 }

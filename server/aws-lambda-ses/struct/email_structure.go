@@ -21,8 +21,8 @@ type AwsFormat struct {
 	Message     ses.Message
 }
 
-func (email *EmailStructureDTO) ToAwsVerify() *ses.VerifyEmailAddressInput {
-	return &ses.VerifyEmailAddressInput{
+func (email *EmailStructureDTO) ToAwsVerify() *ses.VerifyEmailIdentityInput {
+	return &ses.VerifyEmailIdentityInput{
 		EmailAddress: &email.Recipient,
 	}
 }

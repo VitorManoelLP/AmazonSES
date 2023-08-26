@@ -4,6 +4,7 @@ import com.moneyflow.flow.configuration.AuthConfig;
 import com.moneyflow.flow.domain.Roles;
 import com.moneyflow.flow.domain.User;
 import com.moneyflow.flow.domain.UserRoles;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -18,14 +19,12 @@ import java.util.Set;
 @Getter
 public class UserRequestDTO {
 
-    @NotNull
-    @NotEmpty
+    @NotBlank
     private String name;
 
     private String email;
 
-    @NotNull
-    @NotEmpty
+    @NotBlank
     private String password;
 
     public User toUser(final Roles roles) {

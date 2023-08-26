@@ -47,9 +47,4 @@ public class AuthResource {
         return ResponseEntity.accepted().build();
     }
 
-    public ResponseEntity<Void> changeEmail(@RequestBody final EmailConfirmDTO confirmDTO) {
-        userService.changeEmail(confirmDTO, authenticationManager);
-        return ResponseEntity.accepted().build();
-    }
-
 }

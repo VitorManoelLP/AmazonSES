@@ -22,5 +22,8 @@ func (e *EmailServiceVerification) Send(dto _struct.EmailStructureDTO) {
 
 	session := imp.Initialize()
 
-	session.VerifyEmailAddressRequest(verifyAddress)
+	_, err := session.VerifyEmailIdentity(verifyAddress)
+	if err != nil {
+		panic("Error to send verification mail")
+	}
 }

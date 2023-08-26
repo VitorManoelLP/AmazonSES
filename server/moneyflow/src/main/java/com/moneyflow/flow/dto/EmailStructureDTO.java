@@ -1,6 +1,7 @@
 package com.moneyflow.flow.dto;
 
 import com.amazonaws.services.simpleemail.model.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.moneyflow.flow.domain.EmailLog;
 import com.moneyflow.flow.enums.EmailStatus;
 import com.moneyflow.flow.enums.TypeMail;
@@ -23,7 +24,9 @@ public class EmailStructureDTO implements Serializable {
     private static final String EMAIL_CONFIRMATION_BODY = "Olá,\n\n" + "Obrigado por se cadastrar no MoneyFlow! Para continuar utilizando nossa plataforma, por favor, clique no link abaixo para confirmar o seu e-mail:\n\n" + "CONFIRMAR E-MAIL: %s\n\n" + "Se você não se cadastrou no MoneyFlow, ignore este e-mail.\n\n" + "Atenciosamente,\n" + "Equipe MoneyFlow";
 
     private static final String EMAIL_PASSWORD_CHANGE_BODY = "Olá,\n\nSua senha do MoneyFlow foi alterada com sucesso. Se você não realizou esta alteração, entre em contato com nosso suporte imediatamente.\n\nAtenciosamente,\nEquipe MoneyFlow";
+    public static final String GOLANG_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
 
+    @JsonFormat(pattern = GOLANG_FORMAT)
     private final LocalDateTime sendDate = LocalDateTime.now();
 
     @NotNull

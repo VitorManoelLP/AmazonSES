@@ -60,7 +60,6 @@ public class UserService implements UserDetailsService {
         if (!user.getVerified()) {
             final List<String> verifiedMails = emailService.listVerifiedEmailAddresses().getVerifiedEmailAddresses();
             user.setVerified(verifiedMails.stream().anyMatch(it -> it.equals(user.getEmail())));
-            emailSendProducer.sendEvent(EmailStructureDTO.newInstanceBySystemPassword(user.getEmail()));
         }
 
         return user;
