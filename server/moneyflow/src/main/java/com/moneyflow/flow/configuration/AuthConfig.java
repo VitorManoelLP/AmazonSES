@@ -57,7 +57,7 @@ public class AuthConfig {
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers(
                                 AntPathRequestMatcher.antMatcher(HttpMethod.POST, AUTH_SIGN_UP),
-                                AntPathRequestMatcher.antMatcher(HttpMethod.GET, AUTH_SIGN_IN)
+                                AntPathRequestMatcher.antMatcher(HttpMethod.POST, AUTH_SIGN_IN)
                         )
                         .permitAll()
                         .anyRequest().authenticated())

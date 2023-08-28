@@ -33,7 +33,7 @@ public class AuthResource {
                 .build();
     }
 
-    @GetMapping(value = "/sign-in", produces = MediaType.TEXT_PLAIN_VALUE)
+    @PostMapping(value = "/sign-in", produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<String> signIn(@RequestBody @Valid final UserRequestDTO userRequest) {
 
         final UserDetails userDetails = userService.login(userRequest, authenticationManager);

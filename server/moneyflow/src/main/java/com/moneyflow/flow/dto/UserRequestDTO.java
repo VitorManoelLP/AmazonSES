@@ -19,9 +19,9 @@ import java.util.Set;
 @Getter
 public class UserRequestDTO {
 
-    @NotBlank
     private String name;
 
+    @NotBlank
     private String email;
 
     @NotBlank
