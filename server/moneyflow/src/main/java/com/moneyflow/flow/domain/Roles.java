@@ -1,13 +1,17 @@
 package com.moneyflow.flow.domain;
 
 import jakarta.persistence.*;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 
 
 @Entity
 @Table
 @Getter
+@EqualsAndHashCode(of = "id")
+@ToString(of = "id")
 public class Roles implements GrantedAuthority {
 
     private static final String DEFAULT_ROLE = "ROLE_USER";

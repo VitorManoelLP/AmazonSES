@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -45,6 +46,22 @@ public class AuthResource {
     public ResponseEntity<Void> changePassword(@RequestBody final PasswordConfirmDTO password) {
         userService.changePassword(password, authenticationManager);
         return ResponseEntity.accepted().build();
+    }
+
+    @GetMapping("/is-valid-token")
+    public ResponseEntity<Boolean> isValidToken(@RequestHeader("Authentication") String auth) {
+        final String token = auth
+                .replace("Bearer ", "")
+                .replace("Bearer", "");
+
+        if (token.isEmpty()) {
+            return ResponseEntity.ok(false);
+        }
+
+        return ResponseEntity.ok(JwtTokenValidator.isValidToken(
+                token,
+                userService.loadUserByUsername(JwtTokenValidator.getUsername(token))
+        ));
     }
 
 }

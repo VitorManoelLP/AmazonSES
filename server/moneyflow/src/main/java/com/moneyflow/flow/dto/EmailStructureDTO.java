@@ -7,16 +7,15 @@ import com.moneyflow.flow.enums.EmailStatus;
 import com.moneyflow.flow.enums.TypeMail;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Getter
 @Setter(AccessLevel.PRIVATE)
+@EqualsAndHashCode
+@ToString
 public class EmailStructureDTO implements Serializable {
 
     private static final String DEFAULT_SENDER = "vitor.m.lima.p@gmail.com";

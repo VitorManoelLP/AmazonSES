@@ -1,13 +1,17 @@
 package com.moneyflow.flow.domain;
 
 import jakarta.persistence.*;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table
 @Getter
 @Setter
+@EqualsAndHashCode(of = "id")
+@ToString(of = "id")
 public class UserRoles {
 
     @Id

@@ -30,6 +30,7 @@ public class AuthConfig {
 
     public static final String AUTH_SIGN_UP = "/api/auth/sign-up";
     public static final String AUTH_SIGN_IN = "/api/auth/sign-in";
+    public static final String IS_VALID_TOKEN = "/api/auth/is-valid-token";
     private final UserService userDetailsService;
     private final UserRepository userRepository;
 
@@ -57,7 +58,8 @@ public class AuthConfig {
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers(
                                 AntPathRequestMatcher.antMatcher(HttpMethod.POST, AUTH_SIGN_UP),
-                                AntPathRequestMatcher.antMatcher(HttpMethod.POST, AUTH_SIGN_IN)
+                                AntPathRequestMatcher.antMatcher(HttpMethod.POST, AUTH_SIGN_IN),
+                                AntPathRequestMatcher.antMatcher(HttpMethod.GET, IS_VALID_TOKEN)
                         )
                         .permitAll()
                         .anyRequest().authenticated())
